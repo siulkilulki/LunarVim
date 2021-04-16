@@ -1,28 +1,31 @@
-#!/bin/sh
+#!/bin/bash
 
 set -o nounset # error when referencing undefined variable
 set -o errexit # exit when command fails
 
 installnodemac() {
-	brew install lua
-	brew install node
-	brew install yarn
+  brew install lua
+  brew install node
+  brew install yarn
 }
 
 installnodeubuntu() {
-	sudo apt install nodejs
-	sudo apt install npm
+  sudo apt install nodejs
+  sudo apt install npm
 }
 
 moveoldnvim() {
-	echo "Not installing LunarVim"
-	echo "Please move your ~/.config/nvim folder before installing"
-	exit
+  echo "Another ~/.config/nvim is present."
+  echo -n "Do you want to continue (y/n)?"
+  read answer
+  if [ "$answer" == "${answer#[Yy]}" ]; then
+    exit
+  fi
 }
 
 installnodearch() {
-	sudo pacman -S nodejs
-	sudo pacman -S npm
+  sudo pacman -S nodejs
+  sudo pacman -S npm
 }
 
 installnodefedora() {
@@ -31,99 +34,105 @@ installnodefedora() {
 }
 
 installnode() {
-	echo "Installing node..."
-	[ "$(uname)" == "Darwin" ] && installnodemac
-	[ -n "$(uname -a | grep Ubuntu)" ] && installnodeubuntu
-	[ -f "/etc/arch-release" ] && installnodearch
-	[ -f "/etc/fedora-release" ] && installnodefedora
-	[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
-	sudo npm i -g neovim
+  echo "Installing node..."
+  [ "$(uname)" == "Darwin" ] && installnodemac
+  [ -n "$(uname -a | grep Ubuntu)" ] && installnodeubuntu
+  [ -f "/etc/arch-release" ] && installnodearch
+  [ -f "/etc/fedora-release" ] && installnodefedora
+  [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
+  sudo npm i -g neovim
 }
 
 installpiponmac() {
-	sudo curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-	python3 get-pip.py
-	rm get-pip.py
+  sudo curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+  python3 get-pip.py
+  rm get-pip.py
 }
 
 installpiponubuntu() {
-	sudo apt install python3-pip >/dev/null
+  sudo apt install python3-pip >/dev/null
 }
 
 installpiponarch() {
-	pacman -S python-pip
+  pacman -S python-pip
 }
 
 installpiponfedora() {
-	sudo dnf install -y pip >/dev/nul
+  sudo dnf install -y pip >/dev/nul
 }
 
 installpip() {
-	echo "Installing pip..."
-	[ "$(uname)" == "Darwin" ] && installpiponmac
-	[ -n "$(uname -a | grep Ubuntu)" ] && installpiponubuntu
-	[ -f "/etc/arch-release" ] && installpiponarch
-	[ -f "/etc/fedora-release" ] && installpiponfedora
-	[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
+  echo "Installing pip..."
+  [ "$(uname)" == "Darwin" ] && installpiponmac
+  [ -n "$(uname -a | grep Ubuntu)" ] && installpiponubuntu
+  [ -f "/etc/arch-release" ] && installpiponarch
+  [ -f "/etc/fedora-release" ] && installpiponfedora
+  [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
 }
 
 installpynvim() {
-	echo "Installing pynvim..."
-	pip3 install pynvim --user
+  echo "Installing pynvim..."
+  pip3 install pynvim --user
 }
 
 installpacker() {
-	git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
+  git clone https://github.com/wbthomason/packer.nvim ~/.local/share/nvim/site/pack/packer/start/packer.nvim
 }
 
 cloneconfig() {
-	echo "Cloning LunarVim configuration"
-	git clone https://github.com/ChristianChiarulli/lunarvim.git ~/.config/nvim
-	# mv $HOME/.config/nvim/init.lua $HOME/.config/nvim/init.lua.tmp
-	# mv $HOME/.config/nvim/utils/init.lua $HOME/.config/nvim/init.lua
-	nvim -u $HOME/.config/nvim/init.lua +PackerInstall
-	# rm $HOME/.config/nvim/init.lua
-	# mv $HOME/.config/nvim/init.lua.tmp $HOME/.config/nvim/init.lua
+  echo "Cloning LunarVim configuration"
+  git clone https://github.com/siulkilulki/LunarVim.git ~/.config/nvim
+  # mv $HOME/.config/nvim/init.lua $HOME/.config/nvim/init.lua.tmp
+  # mv $HOME/.config/nvim/utils/init.lua $HOME/.config/nvim/init.lua
+  nvim -u $HOME/.config/nvim/init.lua +PackerInstall
+  # rm $HOME/.config/nvim/init.lua
+  # mv $HOME/.config/nvim/init.lua.tmp $HOME/.config/nvim/init.lua
 }
 
 asktoinstallnode() {
-	echo "node not found"
-	echo -n "Would you like to install node now (y/n)? "
-	read answer
-	[ "$answer" != "${answer#[Yy]}" ] && installnode
+  echo "node not found"
+  echo -n "Would you like to install node now (y/n)? "
+  read answer
+  [ "$answer" != "${answer#[Yy]}" ] && installnode
+}
+
+asktoinstallhackfont() {
+    echo -n "Would you like to install hack font with ligatures (y/n)? "
+    read answer
+    [ "$answer" != "${answer#[Yy]}" ] && installhackfont
 }
 
 asktoinstallpip() {
-	# echo "pip not found"
-	# echo -n "Would you like to install pip now (y/n)? "
-	# read answer
-	# [ "$answer" != "${answer#[Yy]}" ] && installpip
-	echo "Please install pip3 before continuing with install"
-	exit
+  # echo "pip not found"
+  # echo -n "Would you like to install pip now (y/n)? "
+  # read answer
+  # [ "$answer" != "${answer#[Yy]}" ] && installpip
+  echo "Please install pip3 before continuing with install"
+  exit
 }
 
 installonmac() {
-	brew install ripgrep fzf ranger
-	npm install -g tree-sitter-cli
+  brew install ripgrep fzf ranger
+  npm install -g tree-sitter-cli
 }
 
 pipinstallueberzug() {
-	which pip3 >/dev/null && pip3 install ueberzug || echo "Not installing ueberzug pip not found"
+  which pip3 >/dev/null && pip3 install ueberzug || echo "Not installing ueberzug pip not found"
 }
 
 installonubuntu() {
-	sudo apt install ripgrep fzf ranger
-	sudo apt install libjpeg8-dev zlib1g-dev python-dev python3-dev libxtst-dev
-	pip3 install ueberzug
-	pip3 install neovim-remote
-	npm install -g tree-sitter-cli
+  sudo apt install ripgrep fzf ranger
+  sudo apt install libjpeg8-dev zlib1g-dev python-dev python3-dev libxtst-dev
+  pip3 install ueberzug
+  pip3 install neovim-remote
+  npm install -g tree-sitter-cli
 }
 
 installonarch() {
-	sudo pacman -S ripgrep fzf ranger
-	which yay >/dev/null && yay -S python-ueberzug-git || pipinstallueberzug
-	pip3 install neovim-remote
-	npm install -g tree-sitter-cli
+  sudo pacman -S ripgrep fzf ranger
+  which yay >/dev/null && yay -S python-ueberzug-git || pipinstallueberzug
+  pip3 install neovim-remote
+  npm install -g tree-sitter-cli
 }
 
 installonfedora() {
@@ -133,11 +142,19 @@ installonfedora() {
 }
 
 installextrapackages() {
-	[ "$(uname)" == "Darwin" ] && installonmac
-	[ -n "$(uname -a | grep Ubuntu)" ] && installonubuntu
-	[ -f "/etc/arch-release" ] && installonarch
-	[ -f "/etc/fedora-release" ] && installonfedora
-	[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
+  [ "$(uname)" == "Darwin" ] && installonmac
+  [ -n "$(uname -a | grep Ubuntu)" ] && installonubuntu
+  [ -f "/etc/arch-release" ] && installonarch
+  [ -f "/etc/fedora-release" ] && installonfedora
+  [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
+}
+
+installhackfont() {
+    echo "Installing hack nerd font with ligatures"
+    fontdir=~/.local/share/fonts
+    wget $(curl -s https://api.github.com/repos/gaplo917/Ligatured-Hack/releases/latest | grep 'browser_' | cut -d\" -f4) -O $fontdir/hack.zip
+    unzip -fo "$fontdir/hack.zip" -d "$fontdir"
+    rm "$fontdir/hack.zip"
 }
 
 # Welcome
@@ -150,24 +167,26 @@ echo 'Installing LunarVim'
 which pip3 >/dev/null && echo "pip installed, moving on..." || asktoinstallpip
 
 # install node and neovim support
-which node >/dev/null && echo "node installed, moving on..." || asktoinstallnode
+# which node >/dev/null && echo "node installed, moving on..." || asktoinstallnode
 
 # install pynvim
 pip3 list | grep pynvim >/dev/null && echo "pynvim installed, moving on..." || installpynvim
 
 if [ -a "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" ]; then
-	echo 'packer already installed'
+  echo 'packer already installed'
 else
-	installpacker
+  installpacker
 fi
 
+asktoinstallhackfont
+
 if [ -a "$HOME/.config/nvim/init.lua" ]; then
-	echo 'nvcode already installed'
+  echo 'LunarVim already installed'
 else
-	# clone config down
-	cloneconfig
-	# echo 'export PATH=$HOME/.config/nvim/utils/bin:$PATH' >>~/.zshrc
-	# echo 'export PATH=$HOME/.config/nvcode/utils/bin:$PATH' >>~/.bashrc
+  # clone down config
+  cloneconfig
+  # echo 'export PATH=$HOME/.config/nvim/utils/bin:$PATH' >>~/.zshrc
+  # echo 'export PATH=$HOME/.config/nvcode/utils/bin:$PATH' >>~/.bashrc
 fi
 
 echo "I recommend you also install and activate a font from here: https://github.com/ryanoasis/nerd-fonts"
