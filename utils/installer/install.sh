@@ -84,7 +84,6 @@ cloneconfig() {
   git clone https://github.com/siulkilulki/LunarVim.git ~/.config/nvim
   # mv $HOME/.config/nvim/init.lua $HOME/.config/nvim/init.lua.tmp
   # mv $HOME/.config/nvim/utils/init.lua $HOME/.config/nvim/init.lua
-  nvim -u $HOME/.config/nvim/init.lua +PackerInstall
   # rm $HOME/.config/nvim/init.lua
   # mv $HOME/.config/nvim/init.lua.tmp $HOME/.config/nvim/init.lua
 }
@@ -97,7 +96,7 @@ asktoinstallnode() {
 }
 
 asktoinstallhackfont() {
-    echo -n "Would you like to install hack font with ligatures (y/n)? "
+    echo -n "Would you like to install hack font (y/n)? "
     read answer
     [ "$answer" != "${answer#[Yy]}" ] && installhackfont
 }
@@ -150,11 +149,16 @@ installextrapackages() {
 }
 
 installhackfont() {
-    echo "Installing hack nerd font with ligatures"
     fontdir=~/.local/share/fonts
+    echo "Installing hack nerd font with ligatures"
     wget $(curl -s https://api.github.com/repos/gaplo917/Ligatured-Hack/releases/latest | grep 'browser_' | cut -d\" -f4) -O $fontdir/hack.zip
-    unzip -fo "$fontdir/hack.zip" -d "$fontdir"
-    rm "$fontdir/hack.zip"
+    unzip -o $fontdir/hack.zip -d $fontdir
+    rm $fontdir/hack.zip
+    echo "Installing hack nerd font without ligatures"
+    wget https://github.com/ryanoasis/nerd-fonts/releases/latest/download/Hack.zip -O $fontdir/hack.zip
+    unzip -o $fontdir/hack.zip -d $fontdir
+    rm $fontdir/*Windows*.ttf
+    rm $fontdir/hack.zip
 }
 
 # Welcome
@@ -189,6 +193,7 @@ else
   # echo 'export PATH=$HOME/.config/nvcode/utils/bin:$PATH' >>~/.bashrc
 fi
 
+nvim -u $HOME/.config/nvim/init.lua +PackerInstall
 echo "I recommend you also install and activate a font from here: https://github.com/ryanoasis/nerd-fonts"
 
 # echo "I also recommend you add 'set preview_images_method ueberzug' to ~/.config/ranger/rc.conf"
