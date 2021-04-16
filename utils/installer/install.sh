@@ -10,8 +10,8 @@ installnodemac() {
 }
 
 installnodeubuntu() {
-  sudo apt install nodejs
-  sudo apt install npm
+  sudo apt -y install nodejs
+  sudo apt -y install npm
 }
 
 moveoldnvim() {
@@ -40,7 +40,7 @@ installnode() {
   [ -f "/etc/arch-release" ] && installnodearch
   [ -f "/etc/fedora-release" ] && installnodefedora
   [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
-  sudo npm i -g neovim
+  # sudo npm i -g neovim
 }
 
 installpiponmac() {
@@ -50,11 +50,11 @@ installpiponmac() {
 }
 
 installpiponubuntu() {
-  sudo apt install python3-pip >/dev/null
+  sudo apt -y install python3-pip >/dev/null
 }
 
 installpiponarch() {
-  pacman -S python-pip
+  pacman -Syu python-pip
 }
 
 installpiponfedora() {
@@ -72,7 +72,7 @@ installpip() {
 
 installpynvim() {
   echo "Installing pynvim..."
-  pip3 install pynvim --user
+  pip3 install -U pynvim --user
 }
 
 installpacker() {
@@ -98,7 +98,9 @@ asktoinstallnode() {
 asktoinstallhackfont() {
     echo -n "Would you like to install hack font (y/n)? "
     read answer
-    [ "$answer" != "${answer#[Yy]}" ] && installhackfont
+    if [ "$answer" != "${answer#[Yy]}" ]; then
+        installhackfont
+    fi;
 }
 
 asktoinstallpip() {
@@ -116,21 +118,38 @@ installonmac() {
 }
 
 pipinstallueberzug() {
-  which pip3 >/dev/null && pip3 install ueberzug || echo "Not installing ueberzug pip not found"
+  which pip3 >/dev/null && pip3 install ueberzug --user || echo "Not installing ueberzug pip not found"
+}
+
+installpillowsimd() {
+  sudo pip3 uninstall -y pillow
+  CC="cc -mavx2" pip3 install --no-cache-dir -I -U --force-reinstall pillow-simd \
+    --global-option="build_ext" \
+    --global-option="--enable-zlib" \
+    --global-option="--enable-jpeg" \
+    --global-option="--enable-tiff" \
+    --global-option="--enable-freetype" \
+    --global-option="--enable-lcms" \
+    --global-option="--enable-webp" \
+    --global-option="--enable-webpmux" \
+    --global-option="--enable-jpeg2000"
 }
 
 installonubuntu() {
-  sudo apt install ripgrep fzf ranger
-  sudo apt install libjpeg8-dev zlib1g-dev python-dev python3-dev libxtst-dev
-  pip3 install ueberzug
-  pip3 install neovim-remote
+  sudo apt -y install ripgrep fzf ranger
+  sudo apt -y install libjpeg-turbo8-dev zlib1g-dev libtiff5-dev liblcms2-dev libfreetype6-dev libwebp-dev libharfbuzz-dev libfribidi-dev libopenjp2-7-dev libraqm0 python-dev python3-dev libxtst-dev
+
+  pip3 show  >/dev/null && echo "pillow-simd installed, moving on..." || installpillowsimd
+  # install ueberzug
+  pip3 install ueberzug --user
+  pip3 install neovim-remote --user
   npm install -g tree-sitter-cli
 }
 
 installonarch() {
   sudo pacman -S ripgrep fzf ranger
   which yay >/dev/null && yay -S python-ueberzug-git || pipinstallueberzug
-  pip3 install neovim-remote
+  pip3 install neovim-remote --user
   npm install -g tree-sitter-cli
 }
 
@@ -171,10 +190,11 @@ echo 'Installing LunarVim'
 which pip3 >/dev/null && echo "pip installed, moving on..." || asktoinstallpip
 
 # install node and neovim support
-# which node >/dev/null && echo "node installed, moving on..." || asktoinstallnode
+which node >/dev/null && echo "node installed, moving on..." || asktoinstallnode
 
 # install pynvim
 pip3 list | grep pynvim >/dev/null && echo "pynvim installed, moving on..." || installpynvim
+
 
 if [ -a "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" ]; then
   echo 'packer already installed'
@@ -192,6 +212,7 @@ else
   # echo 'export PATH=$HOME/.config/nvim/utils/bin:$PATH' >>~/.zshrc
   # echo 'export PATH=$HOME/.config/nvcode/utils/bin:$PATH' >>~/.bashrc
 fi
+installextrapackages
 
 nvim -u $HOME/.config/nvim/init.lua +PackerInstall
 echo "I recommend you also install and activate a font from here: https://github.com/ryanoasis/nerd-fonts"
