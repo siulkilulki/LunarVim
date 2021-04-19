@@ -64,11 +64,13 @@ return require("packer").startup(
 
         -- use {'lukas-reineke/indent-blankline.nvim', opt=true, branch = 'lua'}
         use {"lewis6991/gitsigns.nvim", opt = true}
+		use {"TimUntersberger/neogit", opt=true, requires = "nvim-lua/plenary.nvim"}
         use {"liuchengxu/vim-which-key", opt = true}
         use {"ChristianChiarulli/dashboard-nvim", opt = true}
         use {"windwp/nvim-autopairs", opt = true}
         use {"terrortylor/nvim-comment", opt = true}
         use {"kevinhwang91/nvim-bqf", opt = true}
+		use {"justinmk/vim-sneak", opt = true}
 
         -- Color
         use {"christianchiarulli/nvcode-color-schemes.vim", opt = true}
@@ -80,6 +82,7 @@ return require("packer").startup(
         use {"glepnir/galaxyline.nvim", opt = true}
         use {"romgrk/barbar.nvim", opt = true}
 
+		require_plugin("vim-sneak")
         require_plugin("nvim-lspconfig")
         require_plugin("lspsaga.nvim")
         require_plugin("nvim-lspinstall")
@@ -102,5 +105,6 @@ return require("packer").startup(
         require_plugin("nvim-web-devicons")
         require_plugin("galaxyline.nvim")
         require_plugin("barbar.nvim")
+        require_plugin("neogit")
     end
 )

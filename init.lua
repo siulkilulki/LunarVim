@@ -1,3 +1,4 @@
+vim.cmd('source ~/.config/nvim/vimscript/lv-vim-sneak/init.vim')
 require('plugins')
 require('lv-globals')
 require('lv-utils')

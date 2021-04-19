@@ -1,6 +1,7 @@
 vim.api.nvim_set_keymap('n', '<Space>', '<NOP>', {noremap = true, silent = true})
 vim.g.mapleader = ' '
 vim.api.nvim_set_keymap('', ';', ':', {noremap = true})
+vim.api.nvim_set_keymap('c', '\';', '<CR>', {noremap = true, silent = true})
 
 -- no hl
 vim.api.nvim_set_keymap('n', '<Leader>h', ':set hlsearch!<CR>', {noremap = true, silent = true})
@@ -69,3 +70,6 @@ vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
 -- map <leader>n <Plug>(miniyank-cycle)
 -- map <leader>N <Plug>(miniyank-cycleback)
 -- ]])
+
+-- LSP
+

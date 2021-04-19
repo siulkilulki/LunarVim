@@ -104,6 +104,7 @@ let g:which_key_map.g = {
       \ 'name' : '+git' ,
       \ 'b' : [':GitBlameToggle'                   , 'blame'],
       \ 'B' : [':GBrowse'                          , 'browse'],
+      \ 'c' : [':Neogit commit'                    , 'commit'],
       \ 'd' : [':Git diff'                         , 'diff'],
       \ 'j' : [':NextHunk'                         , 'next hunk'],
       \ 'k' : [':PrevHunk'                         , 'prev hunk'],
@@ -111,8 +112,9 @@ let g:which_key_map.g = {
       \ 'p' : [':PreviewHunk'                      , 'preview hunk'],
       \ 'r' : [':ResetHunk'                        , 'reset hunk'],
       \ 'R' : [':ResetBuffer'                      , 'reset buffer'],
+      \ 'g' : [':Neogit'                           , 'neogit'],
+      \ 'v' : [':Neogit kind=vsplit'               , 'neogit vertical'],
       \ 's' : [':StageHunk'                        , 'stage hunk'],
-      \ 'S' : [':Gstatus'                          , 'status'],
       \ 'u' : [':UndoStageHunk'                    , 'undo stage hunk'],
       \ }
 
