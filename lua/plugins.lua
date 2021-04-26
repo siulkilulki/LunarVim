@@ -50,8 +50,8 @@ return require("packer").startup(
 
         -- Autocomplete
         use {"hrsh7th/nvim-compe", opt = true}
-        use {"hrsh7th/vim-vsnip", opt = true}
         use {"rafamadriz/friendly-snippets", opt = true}
+        use {"hrsh7th/vim-vsnip", opt = true}
 
         -- Treesitter
         use {"nvim-treesitter/nvim-treesitter", run = ":TSUpdate"}
@@ -90,8 +90,9 @@ return require("packer").startup(
         require_plugin("plenary.nvim")
         require_plugin("telescope.nvim")
         require_plugin("nvim-dap")
-        require_plugin("nvim-compe")
+        require_plugin("friendly-snippets")
         require_plugin("vim-vsnip")
+        require_plugin("nvim-compe")
         require_plugin("nvim-treesitter")
         require_plugin("nvim-ts-autotag")
         require_plugin("nvim-tree.lua")
