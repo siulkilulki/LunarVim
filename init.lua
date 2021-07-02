@@ -1,4 +1,4 @@
-vim.cmd('source ~/.config/nvim/vimscript/lv-vim-sneak/init.vim')
+vim.cmd('source ~/.config/nvim/utils/lv-vim-sneak/init.vim')
 require('default-config')
 vim.cmd('luafile ' .. CONFIG_PATH .. '/lv-config.lua')
 require('settings')

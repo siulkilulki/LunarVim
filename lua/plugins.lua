@@ -421,4 +421,8 @@ return require("packer").startup(function(use)
         ft = {"elixir", "eelixir"},
         disable = not O.lang.elixir.active
     }
+
+    use {"justinmk/vim-sneak",
+        event = "BufRead"
+    }
 end)

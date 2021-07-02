@@ -56,7 +56,7 @@ O = {
         git_blame = {active = false},
         gist = {active = false},
         gitlinker = {active = false},
-        lazygit = {active = false},
+        lazygit = {active = true},
         octo = {active = false},
         lush = {active = false},
         diffview = {active = false},
@@ -70,9 +70,9 @@ O = {
         python = {
             linter = '',
             -- @usage can be 'yapf', 'black'
-            formatter = '',
+            formatter = 'black',
             autoformat = false,
-            isort = false,
+            isort = true,
             diagnostics = {
                 virtual_text = {spacing = 0, prefix = ""},
                 signs = true,
