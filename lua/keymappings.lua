@@ -1,15 +1,4 @@
-vim.api.nvim_set_keymap('n', '<Space>', '<NOP>', {noremap = true, silent = true})
-vim.g.mapleader = ' '
 vim.api.nvim_set_keymap('', ';', ':', {noremap = true})
-vim.api.nvim_set_keymap('c', '\';', '<CR>', {noremap = true, silent = true})
-
--- no hl
-vim.api.nvim_set_keymap('n', '<Leader>h', ':set hlsearch!<CR>', {noremap = true, silent = true})
-
--- explorer
-vim.api.nvim_set_keymap('n', '<Leader>e', ':NvimTreeToggle<CR>', {noremap = true, silent = true})
-vim.api.nvim_set_keymap('n', '-', ':RnvimrToggle<CR>', {noremap = true, silent = true})
-
 -- better window movement
 vim.api.nvim_set_keymap('n', '<TAB>', '<C-w>w', {silent = true})
 vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', {silent = true})
@@ -33,12 +22,10 @@ vim.cmd([[
 
 -- TODO fix this
 -- resize with arrows
--- vim.cmd([[
---   nnoremap <silent> <C-Up>    :resize -2<CR>
---   nnoremap <silent> <C-Down>  :resize +2<CR>
---   nnoremap <silent> <C-Left>  :vertical resize -2<CR>
---   nnoremap <silent> <C-Right> :vertical resize +2<CR>
--- ]])
+-- vim.api.nvim_set_keymap('n', '<C-Up>', ':resize -2<CR>', {silent = true})
+-- vim.api.nvim_set_keymap('n', '<C-Down>', ':resize +2<CR>', {silent = true})
+-- vim.api.nvim_set_keymap('n', '<C-Left>', ':vertical resize -2<CR>', {silent = true})
+-- vim.api.nvim_set_keymap('n', '<C-Right>', ':vertical resize +2<CR>', {silent = true})
 
 -- better indenting
 vim.api.nvim_set_keymap('v', '<', '<gv', {noremap = true, silent = true})
@@ -60,6 +47,12 @@ vim.api.nvim_set_keymap('x', 'J', ':move \'>+1<CR>gv-gv', {noremap = true, silen
 -- Better nav for omnicomplete
 vim.cmd('inoremap <expr> <c-j> (\"\\<C-n>\")')
 vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
+
+vim.cmd('vnoremap p "0p')
+vim.cmd('vnoremap P "0P')
+-- vim.api.nvim_set_keymap('v', 'p', '"0p', {silent = true})
+-- vim.api.nvim_set_keymap('v', 'P', '"0P', {silent = true})
+
 -- vim.cmd('inoremap <expr> <TAB> (\"\\<C-n>\")')
 -- vim.cmd('inoremap <expr> <S-TAB> (\"\\<C-p>\")')
 
@@ -72,5 +65,5 @@ vim.cmd('inoremap <expr> <c-k> (\"\\<C-p>\")')
 -- map <leader>N <Plug>(miniyank-cycleback)
 -- ]])
 
--- LSP
-
+-- Toggle the QuickFix window
+vim.api.nvim_set_keymap('', '<C-q>', ':call QuickFixToggle()<CR>', {noremap = true, silent = true})

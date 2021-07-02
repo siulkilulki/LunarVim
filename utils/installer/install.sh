@@ -33,14 +33,26 @@ installnodefedora() {
     sudo dnf install -y npm
 }
 
+installnodegentoo() {
+	echo "Printing current node status..."
+	emerge -pqv net-libs/nodejs
+	echo "Make sure the npm USE flag is enabled for net-libs/nodejs"
+	echo "If it isn't enabled, would you like to enable it with flaggie? (Y/N)"
+	read answer
+        [ "$answer" != "${answer#[Yy]}" ] && sudo flaggie net-libs/nodejs +npm
+	sudo emerge -avnN net-libs/nodejs
+}
+
 installnode() {
-  echo "Installing node..."
-  [ "$(uname)" == "Darwin" ] && installnodemac
-  [ -n "$(uname -a | grep Ubuntu)" ] && installnodeubuntu
-  [ -f "/etc/arch-release" ] && installnodearch
-  [ -f "/etc/fedora-release" ] && installnodefedora
-  [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
-  # sudo npm i -g neovim
+	echo "Installing node..."
+	[ "$(uname)" == "Darwin" ] && installnodemac
+	[ -n "$(cat /etc/os-release | grep Ubuntu)" ] && installnodeubuntu
+	[ -f "/etc/arch-release" ] && installnodearch
+	[ -f "/etc/artix-release" ] && installnodearch
+	[ -f "/etc/fedora-release" ] && installnodefedora
+	[ -f "/etc/gentoo-release" ] && installnodegentoo
+	[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
+	# sudo npm i -g neovim
 }
 
 installpiponmac() {
@@ -61,18 +73,28 @@ installpiponfedora() {
   sudo dnf install -y pip >/dev/nul
 }
 
+installpipongentoo() {
+	sudo emerge -avn dev-python/pip
+}
+
 installpip() {
-  echo "Installing pip..."
-  [ "$(uname)" == "Darwin" ] && installpiponmac
-  [ -n "$(uname -a | grep Ubuntu)" ] && installpiponubuntu
-  [ -f "/etc/arch-release" ] && installpiponarch
-  [ -f "/etc/fedora-release" ] && installpiponfedora
-  [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
+	echo "Installing pip..."
+	[ "$(uname)" == "Darwin" ] && installpiponmac
+	[ -n "$(cat /etc/os-release | grep Ubuntu)" ] && installpiponubuntu
+	[ -f "/etc/arch-release" ] && installpiponarch
+	[ -f "/etc/fedora-release" ] && installpiponfedora
+	[ -f "/etc/gentoo-release" ] && installpipongentoo
+	[ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
 }
 
 installpynvim() {
-  echo "Installing pynvim..."
-  pip3 install -U pynvim --user
+	echo "Installing pynvim..."
+	if [ -f "/etc/gentoo-release" ]; then
+		echo "Installing using Portage"
+		sudo emerge -avn dev-python/pynvim
+	else
+		pip3 install pynvim --user
+	fi
 }
 
 installpacker() {
@@ -159,12 +181,20 @@ installonfedora() {
     pip3 install wheel ueberzug
 }
 
+installongentoo() {
+	sudo emerge -avn sys-apps/ripgrep app-shells/fzf app-misc/ranger dev-python/neovim-remote virtual/jpeg sys-libs/zlib
+	pipinstallueberzug
+	npm install -g tree-sitter-cli
+}
+
 installextrapackages() {
-  [ "$(uname)" == "Darwin" ] && installonmac
-  [ -n "$(uname -a | grep Ubuntu)" ] && installonubuntu
-  [ -f "/etc/arch-release" ] && installonarch
-  [ -f "/etc/fedora-release" ] && installonfedora
-  [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
+	  [ "$(uname)" == "Darwin" ] && installonmac
+	  [ -n "$(cat /etc/os-release | grep Ubuntu)" ] && installonubuntu
+	  [ -f "/etc/arch-release" ] && installonarch
+	  [ -f "/etc/artix-release" ] && installonarch
+	  [ -f "/etc/fedora-release" ] && installonfedora
+	  [ -f "/etc/gentoo-release" ] && installongentoo
+	  [ "$(expr substr $(uname -s) 1 10)" == "MINGW64_NT" ] && echo "Windows not currently supported"
 }
 
 installhackfont() {
@@ -195,9 +225,8 @@ which node >/dev/null && echo "node installed, moving on..." || asktoinstallnode
 # install pynvim
 pip3 list | grep pynvim >/dev/null && echo "pynvim installed, moving on..." || installpynvim
 
-
-if [ -a "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" ]; then
-  echo 'packer already installed'
+if [ -e "$HOME/.local/share/nvim/site/pack/packer/start/packer.nvim" ]; then
+	echo 'packer already installed'
 else
   installpacker
 fi
