@@ -67,3 +67,11 @@ vim.cmd('vnoremap P "0P')
 
 -- Toggle the QuickFix window
 vim.api.nvim_set_keymap('', '<C-q>', ':call QuickFixToggle()<CR>', {noremap = true, silent = true})
+
+-- swap h with i, ijkl instead of hjkl for movement
+vim.cmd([[
+    map i <Up>
+    map j <Left>
+    map k <Down>
+    noremap h i
+]])

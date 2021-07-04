@@ -102,12 +102,22 @@ installpacker() {
 }
 
 cloneconfig() {
+<<<<<<< variant A
   echo "Cloning LunarVim configuration"
   git clone https://github.com/siulkilulki/LunarVim.git ~/.config/nvim
   # mv $HOME/.config/nvim/init.lua $HOME/.config/nvim/init.lua.tmp
   # mv $HOME/.config/nvim/utils/init.lua $HOME/.config/nvim/init.lua
   # rm $HOME/.config/nvim/init.lua
   # mv $HOME/.config/nvim/init.lua.tmp $HOME/.config/nvim/init.lua
+>>>>>>> variant B
+	echo "Cloning LunarVim configuration"
+	git clone https://github.com/ChristianChiarulli/lunarvim.git ~/.config/nvim
+	mv $HOME/.config/nvim/utils/installer/lv-config.example.lua $HOME/.config/nvim/lv-config.lua
+	# mv $HOME/.config/nvim/utils/init.lua $HOME/.config/nvim/init.lua
+	nvim -u $HOME/.config/nvim/init.lua +PackerInstall
+	# rm $HOME/.config/nvim/init.lua
+	# mv $HOME/.config/nvim/init.lua.tmp $HOME/.config/nvim/init.lua
+======= end
 }
 
 asktoinstallnode() {
@@ -231,15 +241,20 @@ else
   installpacker
 fi
 
+<<<<<<< variant A
 asktoinstallhackfont
 
 if [ -a "$HOME/.config/nvim/init.lua" ]; then
   echo 'LunarVim already installed'
+>>>>>>> variant B
+if [ -e "$HOME/.config/nvim/init.lua" ]; then
+	echo 'LunarVim already installed'
+======= end
 else
-  # clone down config
-  cloneconfig
-  # echo 'export PATH=$HOME/.config/nvim/utils/bin:$PATH' >>~/.zshrc
-  # echo 'export PATH=$HOME/.config/nvcode/utils/bin:$PATH' >>~/.bashrc
+	# clone config down
+	cloneconfig
+	# echo 'export PATH=$HOME/.config/nvim/utils/bin:$PATH' >>~/.zshrc
+	# echo 'export PATH=$HOME/.config/lunarvim/utils/bin:$PATH' >>~/.bashrc
 fi
 installextrapackages
 
@@ -248,4 +263,4 @@ echo "I recommend you also install and activate a font from here: https://github
 
 # echo "I also recommend you add 'set preview_images_method ueberzug' to ~/.config/ranger/rc.conf"
 
-# echo 'export PATH=/home/$USER/.config/nvcode/utils/bin:$PATH appending to zshrc/bashrc'
+# echo 'export PATH=/home/$USER/.config/lunarvim/utils/bin:$PATH appending to zshrc/bashrc'

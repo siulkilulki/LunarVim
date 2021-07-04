@@ -8,7 +8,7 @@ an executable
 ]] -- THESE ARE EXAMPLE CONFIGS FEEL FREE TO CHANGE TO WHATEVER YOU WANT
 -- general
 O.auto_complete = true
-O.colorscheme = 'lunar'
+O.colorscheme = 'spacegray'
 O.auto_close_tree = 0
 O.wrap_lines = false
 O.timeoutlen = 100
@@ -17,6 +17,8 @@ O.extras = false
 O.leader_key = ' '
 O.ignore_case = true
 O.smart_case = true
+O.lushmode = false
+O.transparent_window = false
 
 -- After changing plugin config it is recommended to run :PackerCompile
 O.plugin.hop.active = false
@@ -39,9 +41,9 @@ O.treesitter.ensure_installed = "all"
 O.treesitter.ignore_install = {"haskell"}
 O.treesitter.highlight.enabled = true
 
-O.lang.clang.diagnostics.virtual_text = false
-O.lang.clang.diagnostics.signs = false
-O.lang.clang.diagnostics.underline = false
+O.lang.clang.diagnostics.virtual_text = true
+O.lang.clang.diagnostics.signs = true
+O.lang.clang.diagnostics.underline = true
 
 -- python
 -- add things like O.python.formatter.yapf.exec_path
@@ -81,6 +83,12 @@ O.lang.go.autoformat = true
 
 -- rust
 O.lang.rust.autoformat = true
+
+-- clang
+O.lang.clang.autoformat = false -- Set to true to enable auto-format in C/C++ files.
+
+
+
 -- create custom autocommand field (This would be easy with lua)
 
 -- Turn off relative_numbers
