@@ -1,10 +1,10 @@
 vim.api.nvim_set_keymap('', ';', ':', {noremap = true})
 -- better window movement
 vim.api.nvim_set_keymap('n', '<TAB>', '<C-w>w', {silent = true})
-vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', {silent = true})
-vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', {silent = true})
-vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', {silent = true})
-vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', {silent = true})
+-- vim.api.nvim_set_keymap('n', '<C-h>', '<C-w>h', {silent = true})
+-- vim.api.nvim_set_keymap('n', '<C-j>', '<C-w>j', {silent = true})
+-- vim.api.nvim_set_keymap('n', '<C-k>', '<C-w>k', {silent = true})
+-- vim.api.nvim_set_keymap('n', '<C-l>', '<C-w>l', {silent = true})
 
 -- TODO fix this
 -- Terminal window navigation
@@ -37,8 +37,12 @@ vim.api.nvim_set_keymap('i', 'kj', '<ESC>', {noremap = true, silent = true})
 vim.api.nvim_set_keymap('i', 'jj', '<ESC>', {noremap = true, silent = true})
 
 -- Tab switch buffer
--- vim.api.nvim_set_keymap('n', '<C-Left>', ':bnext<CR>', {noremap = true, silent = true})
--- vim.api.nvim_set_keymap('n', '<C-Right>', ':bprevious<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-l>', ':BufferLineCycleNext<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-h>', ':BufferLineCyclePrev<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-Right>', ':BufferLineMoveNext<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-Left>', ':BufferLineMovePrev<CR>', {noremap = true, silent = true})
+vim.api.nvim_set_keymap('n', '<C-x>', ':bd<CR>', {noremap = true, silent = true})
+
 
 -- Move selected line / block of text in visual mode
 vim.api.nvim_set_keymap('x', 'K', ':move \'<-2<CR>gv-gv', {noremap = true, silent = true})
@@ -69,9 +73,9 @@ vim.cmd('vnoremap P "0P')
 vim.api.nvim_set_keymap('', '<C-q>', ':call QuickFixToggle()<CR>', {noremap = true, silent = true})
 
 -- swap h with i, ijkl instead of hjkl for movement
-vim.cmd([[
-    map i <Up>
-    map j <Left>
-    map k <Down>
-    noremap h i
-]])
+-- vim.cmd([[
+--     map i <Up>
+--     map j <Left>
+--     map k <Down>
+--     noremap h i
+-- ]])

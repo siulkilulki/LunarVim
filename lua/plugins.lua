@@ -423,9 +423,10 @@ return require("packer").startup(function(use)
 
     -- Elixir
     use {"elixir-editors/vim-elixir", ft = {"elixir", "eelixir", "euphoria3"}}
-end)
 
     -- Vim sneak
     use {"justinmk/vim-sneak",
         event = "BufRead"
     }
+end)
+

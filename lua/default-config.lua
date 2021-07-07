@@ -62,7 +62,7 @@ O = {
         git_blame = {active = false},
         gist = {active = false},
         gitlinker = {active = false},
-        lazygit = {active = true},
+        lazygit = {active = false},
         octo = {active = false},
         lush = {active = false},
         diffview = {active = false},
