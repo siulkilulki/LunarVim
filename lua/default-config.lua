@@ -77,7 +77,7 @@ O = {
             linter = '',
             -- @usage can be 'yapf', 'black'
             formatter = 'black',
-            autoformat = false,
+            autoformat = true,
             isort = true,
             diagnostics = {
                 virtual_text = {spacing = 0, prefix = ""},
